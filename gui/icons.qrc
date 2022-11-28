@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file alias="camera.svg">resources/camera.svg</file>
+    <file alias="hub.svg">resources/hub.svg</file>
+    <file alias="telescope.svg">resources/telescope.svg</file>
+</qresource>
+</RCC>
