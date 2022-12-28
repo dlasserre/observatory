@@ -6,8 +6,8 @@ class CoordinateStructure:
         self.azimuth = azimuth
         self.altitude = altitude
 
-    def get_dec(self):
+    def get_altitude(self):
         return self.altitude
 
-    def get_ra(self):
+    def get_azimuth(self):
         return self.azimuth

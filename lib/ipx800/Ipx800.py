@@ -56,3 +56,7 @@ class Ipx800:
     def reset(self) -> None:
         command = 'Reset'
         self.__send(command)
+
+    def increment_count(self, counter: str) -> None:
+        self.__send('ResetCount11')
+

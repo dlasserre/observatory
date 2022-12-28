@@ -1,9 +1,6 @@
-from gui.Index import Index
-from PyQt5.QtWidgets import QApplication
-import sys
+from lib import Observatory
+from lib.mount.CEM70G import CEM70G
 
-
-app = QApplication(sys.argv)
-a = Index(1024, 500)
-a.show()
-sys.exit(app.exec_())
+mount = CEM70G('192.168.1.73', 8899)
+app = Observatory.Observatory(mount)
+print(app.get_current_scope_position())

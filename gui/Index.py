@@ -9,7 +9,8 @@ class Index(QMainWindow):
     """ INDEX """
     _wsdl = 'C:\\Users\\damie\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\\LocalCache\\local-packages\\lib\\site-packages\\wsdl'
 
-    def _get_camera_widget(self, camera: QWidgetCameraONVIF) -> CameraStream:
+    @staticmethod
+    def _get_camera_widget(camera: QWidgetCameraONVIF) -> CameraStream:
         size = QWidgetCameraSize(400, 300)
         return CameraStream(
             camera,
@@ -57,7 +58,6 @@ class Index(QMainWindow):
         _hub_layout.addWidget(self._create_button(('Open' if light_status else 'Close')+' lights', self._turn_light))
         _hub_layout.addWidget(self._create_button('Open Telescope'))
         _hub_layout.addWidget(self._create_button('Open Roof'))
-
 
         # _hub_layout.addWidget(QPushButton('&Open Telescope'))
         # _hub_layout.addWidget(QPushButton('&Open Roof'))

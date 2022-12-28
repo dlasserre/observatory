@@ -1,7 +1,7 @@
 import socket
 import time
 from lib.mount.CoordinateStructure import CoordinateStructure
-
+import datetime
 
 class CEM70G:
     """ CEM70G """
@@ -27,6 +27,7 @@ class CEM70G:
         self.information = None
 
     def __send(self, command: str) -> str:
+        print("COMMAND:" + command)
         self.sock.send(command.encode())
         data = self.sock.recv(4096)
         return data.decode()
@@ -79,11 +80,23 @@ class CEM70G:
         self.__send(':sRA'+ra+'#')
         self.__send(':Sds'+dec+'#')
 
+    def current_scope_position(self):
+        position = self.__send(':GEP#')
+        sign = position[0:1]
+
+        dec_degree = (int(position[1:9])*0.01) / 3600
+        dec_min = (dec_degree % 1) * 60
+        dec_sec = (((dec_degree % 1) * 60) % 1) * 60
+
+        ra_degree = (int(position[9:18]) * 0.01) / 3600
+        ra_min = ((ra_degree % 1) * 60)//1
+        ra_sec = round((((ra_degree % 1) * 60) % 1) * 60, 2)
+
+        dec = 'ALT='+(sign+str(int(dec_degree))+'. '+str(int(dec_min))+"' "+str(round(dec_sec, 2))+'"')
+        ra = 'AZ='+(str(int(ra_degree))+'. '+str(int(ra_min))+"' "+str(round(ra_sec, 2))+'"')
+
+        return dec, ra
+
     def park_mount(self) -> None:
         park = self.get_park_position()
-        self.move_to(park.get_ra(), park.get_dec())
-
-
-cem = CEM70G('192.168.1.5', 8899)
-print(cem.get_park_position().get_ra())
-print(cem.get_park_position().get_dec())
+        self.move_to(park.get_azimuth(), park.get_altitude())
