@@ -66,5 +66,4 @@ class Observatory:
 
     def get_current_scope_position(self):
         coordinate = self.mount.current_scope_position()
-        print(coordinate[0])
-        print(coordinate[1])
+        return {'ra': coordinate[0], 'dec': coordinate[1]}

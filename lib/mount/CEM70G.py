@@ -80,17 +80,20 @@ class CEM70G:
         self.__send(':sRA'+ra+'#')
         self.__send(':Sds'+dec+'#')
 
+    @staticmethod
+    def _convert_arcs(arcs : int):
+        degree = (arcs * 0.01) / 3600
+        min = (degree % 1) * 60
+        sec = round((((degree % 1) * 60) % 1) * 60, 2)
+
+        return degree, min, sec
+
     def current_scope_position(self):
         position = self.__send(':GEP#')
         sign = position[0:1]
 
-        dec_degree = (int(position[1:9])*0.01) / 3600
-        dec_min = (dec_degree % 1) * 60
-        dec_sec = (((dec_degree % 1) * 60) % 1) * 60
-
-        ra_degree = (int(position[9:18]) * 0.01) / 3600
-        ra_min = ((ra_degree % 1) * 60)//1
-        ra_sec = round((((ra_degree % 1) * 60) % 1) * 60, 2)
+        dec_degree, dec_min, dec_sec = self._convert_arcs(int(position[1:9]))
+        ra_degree, ra_min, ra_sec = self._convert_arcs(int(position[9:18]))
 
         dec = 'ALT='+(sign+str(int(dec_degree))+'. '+str(int(dec_min))+"' "+str(round(dec_sec, 2))+'"')
         ra = 'AZ='+(str(int(ra_degree))+'. '+str(int(ra_min))+"' "+str(round(ra_sec, 2))+'"')
