@@ -2,7 +2,7 @@ import time
 
 from lib.ipx800.Ipx800 import Ipx800
 from lib.mount.CEM70G import CEM70G
-
+from lib.allsky.CloudDetector import  CloudDetector
 
 class Observatory:
     """ My observatory """
@@ -10,7 +10,7 @@ class Observatory:
     OPEN = 'OPEN'
     CLOSE = 'CLOSE'
 
-    def __init__(self, mount: CEM70G, ipx: Ipx800 = None):
+    def __init__(self, mount: CEM70G = None, ipx: Ipx800 = None):
         self.ipx = ipx
         self.mount = mount
 
@@ -67,3 +67,8 @@ class Observatory:
     def get_current_scope_position(self):
         coordinate = self.mount.current_scope_position()
         return {'ra': coordinate[0], 'dec': coordinate[1]}
+
+    @staticmethod
+    def get_current_cloud_cover(path_to_img, radius) -> int:
+        cloud = CloudDetector()
+        return cloud.percent_cloudy(path_to_img, radius)
