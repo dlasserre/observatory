@@ -1,7 +1,7 @@
 import socket
 import time
 from lib.mount.CoordinateStructure import CoordinateStructure
-import datetime
+
 
 class CEM70G:
     """ CEM70G """
@@ -27,7 +27,6 @@ class CEM70G:
         self.information = None
 
     def __send(self, command: str) -> str:
-        print("COMMAND:" + command)
         self.sock.send(command.encode())
         data = self.sock.recv(4096)
         return data.decode()

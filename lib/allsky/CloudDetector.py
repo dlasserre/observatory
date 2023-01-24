@@ -1,11 +1,12 @@
 from PIL import Image, ImageDraw, ImageFont
 import math
 
+
 class CloudDetector:
     x_center = y_center = 0
     radius = 0
     # Weighted average values. (modify if u want)
-    grey_scale = [(0,0),(1,0.5),(2,6),(3,9), (4,9.5), (5,10), (6,10.5), (7,11)]
+    grey_scale = [(0, 0), (1, 0.5), (2, 6), (3, 9), (4, 9.5), (5, 10), (6, 10.5), (7, 11)]
 
     def in_radius(self, x, y) -> bool:
         distance = self.dist_from_radius_center((x, y))
@@ -32,7 +33,7 @@ class CloudDetector:
                 image.putpixel((x, y), 222)
             theta = theta + 1.0/radius
 
-    def get_greyscale_average(self,image, pixels_map):
+    def get_greyscale_average(self, image, pixels_map):
         width, height = image.size
         total = number = 0
         for x in range(0, width):
@@ -47,7 +48,7 @@ class CloudDetector:
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype("arial.ttf", 100)
         draw.text((50, 50), percent+'% clouds', fill=255, font=font)
-        image.save(image.filename+'_result.png')
+        image.save('result_'+image.filename)
 
     @staticmethod
     def split_histogram(histogram):

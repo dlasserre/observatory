@@ -1,8 +1,7 @@
-import time
-
 from wunderground_pws import WUndergroundAPI, units
 
 
+# @todo faire la fonction humidité
 class Weather(WUndergroundAPI):
     """ Weather Underground """
     
@@ -45,9 +44,3 @@ class Weather(WUndergroundAPI):
     def __str__(self):
         return 'Fast information: ' + str(self.current_temperature()) + '°C '\
                + str(self.wind_direction())+'('+str(self._get_current()['winddir'])+')'
-
-
-weather = Weather('36ea49c08fe446d9aa49c08fe446d946', 'ISAUJO6')
-while True:
-    print(weather.wind_direction(), end="\r")
-    time.sleep(2)

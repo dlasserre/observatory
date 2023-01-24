@@ -33,6 +33,9 @@ class Ipx800:
     def turn_on(self, channel: str, pulse: bool = False) -> None:
         self.__set_output(channel, True, pulse)
 
+    def turn_on_input(self, channel: str):
+        return channel
+
     def get_output_status(self, channel: str) -> str:
         command = "GetOut" + channel
         return self.__send(command)

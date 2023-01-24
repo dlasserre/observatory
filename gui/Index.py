@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from gui.Camera import CameraStream, QWidgetCameraSize
 from lib.camera.Onvif import QWidgetCameraONVIF
 from lib.ipx800.Ipx800 import Ipx800
+import sys
 
 
 class Index(QMainWindow):
@@ -52,7 +53,6 @@ class Index(QMainWindow):
             QWidgetCameraONVIF('192.168.1.181', 'dlasserre', 'XnyexbUF78!!', 2020, self._wsdl)))
         _camera_layout.addWidget(self._get_camera_widget(
             QWidgetCameraONVIF('192.168.1.138', 'dlasserre', 'XnyexbUF78!!', 2020, self._wsdl)))
-
         _hub_layout = QVBoxLayout()
         light_status = self.ipx.get_output_status('03')
         _hub_layout.addWidget(self._create_button(('Open' if light_status else 'Close')+' lights', self._turn_light))
@@ -90,3 +90,7 @@ class Index(QMainWindow):
         self.scope = QAction(QIcon(":telescope.svg"), '&Telescope')
         tools.addAction(self.scope)
 
+
+app = QApplication(sys.argv)
+index = Index(800, 600)
+app.exec()

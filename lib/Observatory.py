@@ -3,6 +3,8 @@ import time
 from lib.ipx800.Ipx800 import Ipx800
 from lib.mount.CEM70G import CEM70G
 from lib.allsky.CloudDetector import  CloudDetector
+from lib.weather.Wunderground import Weather
+
 
 class Observatory:
     """ My observatory """
@@ -10,9 +12,10 @@ class Observatory:
     OPEN = 'OPEN'
     CLOSE = 'CLOSE'
 
-    def __init__(self, mount: CEM70G = None, ipx: Ipx800 = None):
+    def __init__(self, mount: CEM70G = None, ipx: Ipx800 = None, weather: Weather = None):
         self.ipx = ipx
         self.mount = mount
+        self.weather = weather
 
     def _open_output(self, number: str) -> None:
         self.ipx.turn_on(number)
@@ -72,3 +75,6 @@ class Observatory:
     def get_current_cloud_cover(path_to_img, radius) -> int:
         cloud = CloudDetector()
         return cloud.percent_cloudy(path_to_img, radius)
+
+    def get_temperature(self):
+        return self.weather.current_temperature()
