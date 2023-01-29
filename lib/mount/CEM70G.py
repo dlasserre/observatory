@@ -103,6 +103,7 @@ class CEM70G:
 
             return dec, ra
         except:
+            time.sleep(30)
             return self.current_scope_position()
 
     def park_mount(self) -> None:
