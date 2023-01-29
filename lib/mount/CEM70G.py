@@ -88,20 +88,22 @@ class CEM70G:
         return degree, min, sec
 
     def current_scope_position(self):
-        position = self.__send(':GAC#')
-        sign = position[0:1]
+        try:
+            position = self.__send(':GAC#')
+            sign = position[0:1]
 
-        _dec = int(position[1:9])
-        _ra = int(position[9:18])
-        if (_dec > 32400000 or _dec < -32400000) or (_ra > 129600000 or _ra < 0):  # retry call, bad data
+            _dec = int(position[1:9])
+            _ra = int(position[9:18])
+            if (_dec > 32400000 or _dec < -32400000) or (_ra > 129600000 or _ra < 0):
+                return self.current_scope_position()
+            dec_degree, dec_min, dec_sec = self._convert_arcs(_dec)
+            ra_degree, ra_min, ra_sec = self._convert_arcs(_ra)
+            dec = 'ALT=' + (sign + str(int(dec_degree)) + '. ' + str(int(dec_min)) + "' " + str(round(dec_sec, 2)) + '"')
+            ra = 'AZ=' + (str(int(ra_degree)) + '. ' + str(int(ra_min)) + "' " + str(round(ra_sec, 2)) + '"')
+
+            return dec, ra
+        except:
             return self.current_scope_position()
-        dec_degree, dec_min, dec_sec = self._convert_arcs(_dec)
-        ra_degree, ra_min, ra_sec = self._convert_arcs(_ra)
-
-        dec = 'ALT=' + (sign + str(int(dec_degree)) + '. ' + str(int(dec_min)) + "' " + str(round(dec_sec, 2)) + '"')
-        ra = 'AZ=' + (str(int(ra_degree)) + '. ' + str(int(ra_min)) + "' " + str(round(ra_sec, 2)) + '"')
-
-        return dec, ra
 
     def park_mount(self) -> None:
         park = self.get_park_position()
