@@ -6,6 +6,8 @@ class Ipx800:
 
     ON = 'ON'
     OFF = 'OFF'
+    OPEN = 1
+    CLOSE = 1
 
     def __init__(self, ip: str, port: int = 9870) -> None:
         self.input = 1
@@ -22,10 +24,7 @@ class Ipx800:
         message = 'Set' + output + ('1' if state else '0')
         if pulse is True:
             message += 'p'  # Be sure to have defined the TB and TA in the ipx beforehand
-        print(message)
         response = self.__send(message)
-        if 'OK' == response:
-            print('Success Channel 3 turn ' + ('on' if state else 'off'))
 
     def turn_off(self, channel: str) -> None:
         self.__set_output(channel, False)
@@ -36,9 +35,9 @@ class Ipx800:
     def turn_on_input(self, channel: str):
         return channel
 
-    def get_output_status(self, channel: str) -> str:
+    def output_status(self, channel: str) -> str:
         command = "GetOut" + channel
-        return self.__send(command)
+        return self.ON if self.OPEN == self.__send(command) else self.OFF
 
     def get_input_status(self, channel: str) -> str:
         command = 'GetIn'+channel

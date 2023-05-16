@@ -19,7 +19,7 @@ class Pegasus:
     def get_unique_key_from_name(self, device_name: str) -> str:
         devices = self._call('get', '/Server/DeviceManager/Connected')
         for device in devices['data']:
-            if device['name'] == globals()[device_name]:
+            if device['name'] == device_name:
                 return device['uniqueKey']
         raise ValueError('Device ' + device_name + ' not found or not connected')
 

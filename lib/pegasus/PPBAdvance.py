@@ -32,7 +32,11 @@ class PPBAdvance(Pegasus.Pegasus):
 
     def get_auto_dew_status(self) -> bool:
         response = self._call('get', '/Driver/PPBAdvance/Dew/Auto?DriverUniqueKey=' + self.unique_key)
-        return True if response.data.message.switch.state == 'ON' else False
+        return True if response['data']['message']['switch']['state'] == 'ON' else False
+
+    def get_environment(self):
+        response = self._call('get', '/Driver/PPBAdvance/Report/Environment?DriverUniqueKey=' + self.unique_key)
+        return response['data']['message']
 
     def set_dew(self, port, state):
         if self.get_auto_dew_status():
